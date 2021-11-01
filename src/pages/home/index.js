@@ -4,19 +4,19 @@ import { useState } from "react";
 
 export default function Home() {
   const [contractAdd, setContractAddress] = useState("");
+  const [resField, setResField] = useState("");
 
   const CallAPI = (e) => {
-    let dataField = document.getElementById("data");
     e.preventDefault();
     axios
       .get(
         `https://api.bscscan.com/api?module=stats&action=tokensupply&contractaddress=${contractAdd}&apikey=${api_key}`
       )
       .then((data) => {
-        dataField.innerText = data;
+        setResField(data.data.result);
       })
       .catch((error) => {
-        dataField.innerText = error;
+        setResField("Error Occured!");
       });
   };
 
@@ -42,7 +42,7 @@ export default function Home() {
           <br />
           <input type="submit" value="Enter" className="btn btn-primary" />
         </form>
-        <div id="data"></div>
+        <div className="fw-bold">{resField}</div>
       </div>
     </div>
   );
